@@ -1,0 +1,30 @@
+{
+  "name": "@3ddx/teeth-chart-clinical",
+  "version": "2.0.0",
+  "description": "Production-grade clinical odontogram and dental arch charting component with SVG anatomy and dual ISO 3950 / ADA numbering",
+  "author": "3DDX Advanced Engineering",
+  "license": "UNLICENSED",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "keywords": [
+    "dental",
+    "odontogram",
+    "teeth-chart",
+    "fdi",
+    "iso-3950",
+    "universal-numbering",
+    "clinical",
+    "svg",
+    "react"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "lucide-react": ">=0.300.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}
