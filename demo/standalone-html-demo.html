@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3DDX Teeth Chart | Live Embed Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0f19;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      max-width: 960px;
+      width: 100%;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 16px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #00d8fe;
+      margin: 0;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin: 4px 0 0 0;
+    }
+    .chart-container {
+      max-width: 960px;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid #1e293b;
+      background: #070b14;
+    }
+    iframe {
+      width: 100%;
+      height: 680px;
+      border: none;
+      display: block;
+    }
+    .log-box {
+      max-width: 960px;
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px;
+      background: #111827;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #38bdf8;
+      box-sizing: border-box;
+    }
+    .log-header {
+      font-weight: bold;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1 class="title">🦷 3DDX Teeth Chart Universal Embed Demo</h1>
+      <p class="subtitle">Embedded via cross-platform iframe postMessage bridge into any external host</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <iframe
+      id="teethChartIframe"
+      src="https://teeth-chart.abdoaladawy.me/?embed=true&services=sg,tp&theme=dark"
+      allow="clipboard-write"
+    ></iframe>
+  </div>
+
+  <div class="log-box">
+    <div class="log-header">📡 Realtime Event Listener Output (Captured from postMessage):</div>
+    <div id="output">Interact with any tooth in the chart above to receive structured events here...</div>
+  </div>
+
+  <script>
+    // Listen for live updates from embedded TeethChart
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === '3DDX_TEETH_CHART_UPDATE') {
+        const payload = event.data.payload;
+        document.getElementById('output').innerHTML = `
+<strong>Selected Universal Teeth:</strong> [${payload.selectedUniversal.join(', ')}]<br>
+<strong>Selected FDI Teeth:</strong> [${payload.selectedFDI.join(', ')}]<br>
+<strong>Assigned Procedures:</strong> ${JSON.stringify(payload.restorations)}<br>
+<strong>Legacy Comma String (for PHP / zConnect):</strong> "${payload.legacyString}"<br>
+<strong>Total Fabrication Units:</strong> ${payload.totalUnits}
+        `;
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "name": "@3ddx/teeth-chart",
+  "version": "2.5.0",
+  "type": "module",
+  "description": "Production-grade clinical odontogram and dental arch charting component with SVG anatomy, service-driven procedure filtering, dual ISO 3950 / ADA numbering, and universal iframe/web embed support.",
+  "author": "3DDX Advanced Engineering <abdo.aladawy@3ddx.com>",
+  "license": "MIT",
+  "homepage": "https://teeth-chart.abdoaladawy.me",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Abdo2000-1/Teeth-Chart.git"
+  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./standalone": {
+      "import": "./standalone-component/index.ts",
+      "types": "./standalone-component/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "dental",
+    "odontogram",
+    "teeth-chart",
+    "fdi",
+    "iso-3950",
+    "universal-numbering",
+    "clinical",
+    "svg",
+    "react",
+    "3ddx",
+    "digital-dentistry",
+    "surgical-guide",
+    "implantology"
+  ],
+  "dependencies": {
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  }
+}
