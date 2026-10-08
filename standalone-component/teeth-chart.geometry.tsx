@@ -40,8 +40,14 @@ export function ClinicalToothSilhouette({
   const resInfo = RESTORATION_TYPES.find(r => r.id === restoration);
   const strokeColor = isSelected ? (resInfo?.color || '#00d8fe') : 'currentColor';
   const crownFill = isSelected ? (resInfo ? `${resInfo.color}25` : 'rgba(0,216,254,0.18)') : 'none';
-  const isImplant = Boolean(isSelected && restoration === 'implant');
+  const isImplant = Boolean(isSelected && (restoration === 'implant' || restoration === 'analog'));
   const isExtraction = Boolean(isSelected && restoration === 'extraction');
+  const isSleeve = Boolean(isSelected && restoration === 'sleeve');
+  const isAttachment = Boolean(isSelected && restoration === 'attachment');
+  const isAnchor = Boolean(isSelected && restoration === 'anchor');
+  const isSinus = Boolean(isSelected && restoration === 'sinus_lift');
+  const isNerve = Boolean(isSelected && restoration === 'nerve_trace');
+  const isBoneReduction = Boolean(isSelected && restoration === 'bone_reduction');
 
   const isUpper = toothNumber >= 1 && toothNumber <= 16;
   const isLeftQuadrant = (toothNumber >= 9 && toothNumber <= 16) || (toothNumber >= 17 && toothNumber <= 24);
@@ -291,6 +297,71 @@ export function ClinicalToothSilhouette({
           <line x1="10" y1="15" x2="40" y2="75" />
           <line x1="40" y1="15" x2="10" y2="75" />
         </g>
+      )}
+
+      {/* Surgical Guide Sleeve Ring */}
+      {isSleeve && (
+        <g stroke="#0284c7" fill="none" strokeWidth="2">
+          <circle cx="25" cy={isUpper ? 64 : 26} r="10" strokeDasharray="3 2" />
+          <circle cx="25" cy={isUpper ? 64 : 26} r="6" />
+        </g>
+      )}
+
+      {/* Guide Anchor Pin Marker */}
+      {isAnchor && (
+        <g fill="#d97706" stroke="#92400e" strokeWidth="1">
+          <circle cx="25" cy={isUpper ? 20 : 70} r="4.5" />
+          <line x1="25" y1={isUpper ? 24 : 66} x2="25" y2={isUpper ? 42 : 48} stroke="#d97706" strokeWidth="2" />
+        </g>
+      )}
+
+      {/* Clear Aligner Attachment Bump */}
+      {isAttachment && (
+        <rect
+          x="21"
+          y={isUpper ? 60 : 22}
+          width="8"
+          height="7"
+          rx="1.5"
+          fill="#10b981"
+          stroke="#059669"
+          strokeWidth="1.2"
+        />
+      )}
+
+      {/* Sinus Elevation Indicator */}
+      {isSinus && (
+        <path
+          d={isUpper ? "M 10 18 Q 25 8 40 18" : "M 10 72 Q 25 82 40 72"}
+          fill="none"
+          stroke="#06b6d4"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+      )}
+
+      {/* Mandibular Nerve Trace Zone */}
+      {isNerve && (
+        <path
+          d={isUpper ? "M 12 14 L 20 22 L 28 14 L 38 22" : "M 12 76 L 20 68 L 28 76 L 38 68"}
+          fill="none"
+          stroke="#f97316"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      )}
+
+      {/* Bone Reduction Plateau */}
+      {isBoneReduction && (
+        <line
+          x1="8"
+          y1={isUpper ? 46 : 44}
+          x2="42"
+          y2={isUpper ? 46 : 44}
+          stroke="#e11d48"
+          strokeWidth="2.5"
+          strokeDasharray="4 2"
+        />
       )}
     </svg>
   );

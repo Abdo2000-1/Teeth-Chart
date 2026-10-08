@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { ODONTO_DATABASE, RESTORATION_TYPES } from './teeth-chart.constants';
+import { 
+  ODONTO_DATABASE, 
+  RESTORATION_TYPES,
+  SERVICE_PROCEDURES_MAP,
+  getProceduresForServices 
+} from './teeth-chart.constants';
 import { getBaseToothNumber } from './teeth-chart.geometry';
 
 describe('Clinical Odontogram Database & Morphology Engine', () => {
@@ -53,20 +58,15 @@ describe('Clinical Odontogram Database & Morphology Engine', () => {
   });
 
   it('should map base tooth numbers symmetrically for anatomy rendering', () => {
-    // Upper Right Central Incisor (8) and Upper Left Central Incisor (9) map to base 8
     expect(getBaseToothNumber(8)).toBe(8);
     expect(getBaseToothNumber(9)).toBe(8);
-
-    // Upper Right 1st Molar (3) and Upper Left 1st Molar (14) map to base 3
     expect(getBaseToothNumber(3)).toBe(3);
     expect(getBaseToothNumber(14)).toBe(3);
-
-    // Lower Right 1st Molar (30) and Lower Left 1st Molar (19) map to base 30
     expect(getBaseToothNumber(30)).toBe(30);
     expect(getBaseToothNumber(19)).toBe(30);
   });
 
-  it('should define all 6 required clinical restorative modalities', () => {
+  it('should define all clinical restorative and surgical modalities', () => {
     const ids = RESTORATION_TYPES.map(r => r.id);
     expect(ids).toContain('crown');
     expect(ids).toContain('bridge');
@@ -74,6 +74,10 @@ describe('Clinical Odontogram Database & Morphology Engine', () => {
     expect(ids).toContain('implant');
     expect(ids).toContain('inlay');
     expect(ids).toContain('extraction');
+    expect(ids).toContain('sleeve');
+    expect(ids).toContain('anchor');
+    expect(ids).toContain('sinus_lift');
+    expect(ids).toContain('nerve_trace');
   });
 
   it('should guarantee valid WCAG color tokens for every restoration', () => {
@@ -83,5 +87,26 @@ describe('Clinical Odontogram Database & Morphology Engine', () => {
       expect(res.textColor).toBeTruthy();
       expect(res.borderColor).toBeTruthy();
     });
+  });
+
+  it('should filter procedures dynamically by 3DDX prescribed services', () => {
+    const sgProcedures = getProceduresForServices(['sg']);
+    const sgIds = sgProcedures.map(p => p.id);
+    expect(sgIds).toContain('implant');
+    expect(sgIds).toContain('sleeve');
+    expect(sgIds).toContain('anchor');
+    expect(sgIds).not.toContain('veneer');
+
+    const tpProcedures = getProceduresForServices(['tp']);
+    const tpIds = tpProcedures.map(p => p.id);
+    expect(tpIds).toContain('crown');
+    expect(tpIds).toContain('veneer');
+    expect(tpIds).toContain('implant');
+    expect(tpIds).not.toContain('sleeve');
+
+    const multiProcedures = getProceduresForServices(['sg', 'tp']);
+    const multiIds = multiProcedures.map(p => p.id);
+    expect(multiIds).toContain('sleeve');
+    expect(multiIds).toContain('crown');
   });
 });
