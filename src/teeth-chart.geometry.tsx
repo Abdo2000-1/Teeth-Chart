@@ -39,7 +39,7 @@ export function ClinicalToothSilhouette({
 }: SilhouetteProps) {
   const resInfo = RESTORATION_TYPES.find(r => r.id === restoration);
   const strokeColor = isSelected ? (resInfo?.color || '#00d8fe') : 'currentColor';
-  const crownFill = isSelected ? (resInfo ? `${resInfo.color}25` : 'rgba(0,216,254,0.18)') : 'none';
+  const crownFill = isSelected ? (resInfo ? `${resInfo.color}55` : 'rgba(0,216,254,0.35)') : 'none';
   const isImplant = Boolean(isSelected && (restoration === 'implant' || restoration === 'analog'));
   const isExtraction = Boolean(isSelected && restoration === 'extraction');
   const isSleeve = Boolean(isSelected && restoration === 'sleeve');
