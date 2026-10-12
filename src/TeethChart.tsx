@@ -10,7 +10,27 @@ import {
   Layers,
   Sparkles,
   SlidersHorizontal,
-  ChevronDown
+  ChevronDown,
+  Eye,
+  Crown,
+  Disc,
+  GitFork,
+  Gem,
+  XCircle,
+  Target,
+  Pin,
+  Ruler,
+  ChevronsUp,
+  Component,
+  Tag,
+  MapPin,
+  Search,
+  AlertTriangle,
+  Clock,
+  History,
+  Triangle,
+  Split,
+  Wand2
 } from 'lucide-react';
 import { 
   ToothSystem, 
@@ -28,6 +48,55 @@ import {
 import { 
   ClinicalToothSilhouette 
 } from './teeth-chart.geometry';
+
+export function ProcedureIcon({ type, className = "w-3.5 h-3.5" }: { type: RestorationType | string; className?: string }) {
+  switch (type) {
+    case 'crown':
+      return <Crown className={className} />;
+    case 'bridge':
+      return <GitFork className={className} />;
+    case 'veneer':
+      return <Sparkles className={className} />;
+    case 'implant':
+      return <Disc className={className} />;
+    case 'inlay':
+      return <Gem className={className} />;
+    case 'extraction':
+      return <XCircle className={className} />;
+    case 'sleeve':
+      return <Target className={className} />;
+    case 'anchor':
+      return <Pin className={className} />;
+    case 'bone_reduction':
+      return <Ruler className={className} />;
+    case 'sinus_lift':
+      return <ChevronsUp className={className} />;
+    case 'nerve_trace':
+      return <Activity className={className} />;
+    case 'segmentation':
+      return <Layers className={className} />;
+    case 'die_prep':
+      return <Tag className={className} />;
+    case 'analog':
+      return <MapPin className={className} />;
+    case 'impacted':
+      return <Search className={className} />;
+    case 'pathology':
+      return <AlertTriangle className={className} />;
+    case 'temp_crown':
+      return <Clock className={className} />;
+    case 'temp_bridge':
+      return <History className={className} />;
+    case 'attachment':
+      return <Triangle className={className} />;
+    case 'ipr':
+      return <Split className={className} />;
+    case 'smile_design':
+      return <Wand2 className={className} />;
+    default:
+      return <Component className={className} />;
+  }
+}
 
 export function TeethChart({
   selected,
@@ -111,6 +180,23 @@ export function TeethChart({
   }, [availableProcedures, selectedTool]);
 
   const [hoveredTooth, setHoveredTooth] = useState<ToothOdontoData | null>(null);
+  const [visibleArch, setVisibleArch] = useState<'both' | 'upper' | 'lower'>('both');
+
+  // Grouped procedures for clean enterprise procedure-level summary tags
+  const groupedProcedures = useMemo(() => {
+    const map: Record<string, number[]> = {};
+    activeSelected.forEach((num) => {
+      const res = localRestorations[num] || toothRestorations[num] || 'crown';
+      if (!map[res]) {
+        map[res] = [];
+      }
+      map[res].push(num);
+    });
+    Object.keys(map).forEach(key => {
+      map[key].sort((a, b) => a - b);
+    });
+    return map;
+  }, [activeSelected, localRestorations, toothRestorations]);
 
   // Grouped into the standard 4 anatomical quadrants
   const upperRight = ODONTO_DATABASE.filter(t => t.quadrant === 'UR');
@@ -299,17 +385,6 @@ export function TeethChart({
             {displayNum}
           </span>
         )}
-
-        {/* Hover / Status Micro-Badge */}
-        {isSelected && resInfo && (
-          <span 
-            className="absolute top-0.5 right-0.5 text-[8px] leading-none px-1 py-0.5 rounded-full font-bold shadow-xs"
-            style={{ backgroundColor: resInfo.color, color: '#ffffff' }}
-            title={resInfo.label}
-          >
-            {resInfo.icon}
-          </span>
-        )}
       </div>
     );
   };
@@ -425,7 +500,7 @@ export function TeethChart({
                   }`}
                   title={res.description}
                 >
-                  <span className="text-sm">{res.icon}</span>
+                  <ProcedureIcon type={res.id} className="w-3.5 h-3.5" />
                   <span>{res.label}</span>
                 </button>
               );
@@ -443,95 +518,109 @@ export function TeethChart({
             )}
           </div>
 
-          {/* Quick Select Presets: Including BOTH ARCHES */}
+          {/* Arch Visibility Toggle (Image 2) */}
           <div className="flex items-center gap-1.5 flex-wrap">
-            {/* BOTH ARCHES (ALL 32 TEETH AT ONCE) */}
-            <button
-              type="button"
-              onClick={() => handleSelectBatch('both')}
-              className="px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
-              title="Select all 32 teeth in both upper and lower arches at once"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Both Arches (1-32)</span>
-            </button>
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 flex items-center gap-1">
+              <Eye className="w-3 h-3 text-slate-400" /> Arch View:
+            </span>
+            <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
+              <button
+                type="button"
+                onClick={() => setVisibleArch('both')}
+                className={`flex items-center gap-1 px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  visibleArch === 'both'
+                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Display both upper and lower arches"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Both Arches (1-32)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setVisibleArch('upper')}
+                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  visibleArch === 'upper'
+                    ? 'bg-cyan-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Display upper maxilla row only"
+              >
+                Upper (1-16)
+              </button>
+              <button
+                type="button"
+                onClick={() => setVisibleArch('lower')}
+                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  visibleArch === 'lower'
+                    ? 'bg-indigo-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Display lower mandible row only"
+              >
+                Lower (17-32)
+              </button>
+            </div>
 
-            <button
-              type="button"
-              onClick={() => handleSelectBatch('upper')}
-              className="px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
-            >
-              + Upper (1-16)
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => handleSelectBatch('lower')}
-              className="px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
-            >
-              + Lower (17-32)
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => handleSelectBatch('smile')}
-              className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/40 transition-colors cursor-pointer"
-              title="Aesthetic Anterior Smile Zone (Canine to Canine)"
-            >
-              <Smile className="w-3.5 h-3.5" />
-              <span>Smile Zone</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSelectBatch('posteriors')}
-              className="px-2.5 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
-            >
-              + Posteriors
-            </button>
+            {/* Quick Batch Select Presets */}
+            <div className="hidden sm:flex items-center gap-1 ml-1">
+              <button
+                type="button"
+                onClick={() => handleSelectBatch('smile')}
+                className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/40 transition-colors cursor-pointer"
+                title="Select Anterior Smile Zone"
+              >
+                <Smile className="w-3.5 h-3.5" /> Smile Zone
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* 3. DENTAL ARCH ANATOMY GRID (EXACT 4-QUADRANT VIEW) */}
+      {/* 3. DENTAL ARCH ANATOMY GRID (EXACT 4-QUADRANT VIEW Filtered by visibleArch) */}
       <div className="py-2 overflow-x-auto">
         <div className="min-w-[700px] max-w-4xl mx-auto space-y-3">
           
           {/* Top Quadrant Header Labels */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pb-1">
-            <div className="flex items-center justify-between pr-4">
-              <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] border border-cyan-500/20">
-                UR • Maxillary Right
-              </span>
-              <span className="text-[10px] font-mono text-slate-400">#1 ➔ #8</span>
+          {(visibleArch === 'both' || visibleArch === 'upper') && (
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pb-1">
+              <div className="flex items-center justify-between pr-4">
+                <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] border border-cyan-500/20">
+                  UR • Maxillary Right
+                </span>
+                <span className="text-[10px] font-mono text-slate-400">#1 ➔ #8</span>
+              </div>
+              <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
+              <div className="flex items-center justify-between pl-4">
+                <span className="text-[10px] font-mono text-slate-400">#9 ➔ #16</span>
+                <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono text-[11px] border border-blue-500/20">
+                  UL • Maxillary Left
+                </span>
+              </div>
             </div>
-            <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
-            <div className="flex items-center justify-between pl-4">
-              <span className="text-[10px] font-mono text-slate-400">#9 ➔ #16</span>
-              <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono text-[11px] border border-blue-500/20">
-                UL • Maxillary Left
-              </span>
-            </div>
-          </div>
+          )}
 
           {/* The 4-Quadrant Anatomical Canvas */}
           <div className="relative border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-900/40 shadow-inner">
             
             {/* UPPER ARCH (Maxilla) */}
-            <div className="grid grid-cols-[1fr_auto_1fr] items-end pb-2">
-              <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                {upperRight.map(renderToothCell)}
-              </div>
+            {(visibleArch === 'both' || visibleArch === 'upper') && (
+              <div className="grid grid-cols-[1fr_auto_1fr] items-end pb-2">
+                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                  {upperRight.map(renderToothCell)}
+                </div>
 
-              {/* Midline Divider */}
-              <div className="w-8 h-full flex items-center justify-center">
-                <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
-              </div>
+                {/* Midline Divider */}
+                <div className="w-8 h-full flex items-center justify-center">
+                  <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
+                </div>
 
-              <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                {upperLeft.map(renderToothCell)}
+                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                  {upperLeft.map(renderToothCell)}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Occlusal Midline Cross Line */}
             <div className="relative flex items-center justify-between my-2">
@@ -547,39 +636,43 @@ export function TeethChart({
             </div>
 
             {/* LOWER ARCH (Mandible) */}
-            <div className="grid grid-cols-[1fr_auto_1fr] items-start pt-2">
-              <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                {lowerRight.map(renderToothCell)}
-              </div>
+            {(visibleArch === 'both' || visibleArch === 'lower') && (
+              <div className="grid grid-cols-[1fr_auto_1fr] items-start pt-2">
+                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                  {lowerRight.map(renderToothCell)}
+                </div>
 
-              {/* Midline Divider */}
-              <div className="w-8 h-full flex items-center justify-center">
-                <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
-              </div>
+                {/* Midline Divider */}
+                <div className="w-8 h-full flex items-center justify-center">
+                  <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
+                </div>
 
-              <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                {lowerLeft.map(renderToothCell)}
+                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                  {lowerLeft.map(renderToothCell)}
+                </div>
               </div>
-            </div>
+            )}
 
           </div>
 
           {/* Bottom Quadrant Header Labels */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pt-1">
-            <div className="flex items-center justify-between pr-4">
-              <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] border border-indigo-500/20">
-                LR • Mandibular Right
-              </span>
-              <span className="text-[10px] font-mono text-slate-400">#32 ➔ #25</span>
+          {(visibleArch === 'both' || visibleArch === 'lower') && (
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pt-1">
+              <div className="flex items-center justify-between pr-4">
+                <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] border border-indigo-500/20">
+                  LR • Mandibular Right
+                </span>
+                <span className="text-[10px] font-mono text-slate-400">#32 ➔ #25</span>
+              </div>
+              <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
+              <div className="flex items-center justify-between pl-4">
+                <span className="text-[10px] font-mono text-slate-400">#24 ➔ #17</span>
+                <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[11px] border border-purple-500/20">
+                  LL • Mandibular Left
+                </span>
+              </div>
             </div>
-            <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
-            <div className="flex items-center justify-between pl-4">
-              <span className="text-[10px] font-mono text-slate-400">#24 ➔ #17</span>
-              <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[11px] border border-purple-500/20">
-                LL • Mandibular Left
-              </span>
-            </div>
-          </div>
+          )}
 
         </div>
       </div>
@@ -621,56 +714,62 @@ export function TeethChart({
         )}
       </div>
 
-      {/* 5. SELECTED PROCEDURES SUMMARY TAGS (ACCURATE PER-TOOTH PROCEDURE LABELS) */}
+      {/* 5. SELECTED PROCEDURES SUMMARY TAGS GROUPED BY PROCEDURE (Image 1) */}
       {activeSelected.length > 0 && (
-        <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-between items-center gap-3 text-xs">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-extrabold text-slate-700 dark:text-slate-300">Prescribed Teeth:</span>
-            <div className="flex flex-wrap gap-1.5">
-              {[...activeSelected].sort((a, b) => a - b).map((num) => {
-                const t = ODONTO_DATABASE.find(item => item.universal === num);
-                const display = system === 'universal' ? `#${num}` : `FDI ${t?.fdi || num}`;
-                // Retrieve each tooth's OWN procedure from dictionary (NEVER fall back to selectedTool)
-                const assignedProc = localRestorations[num] || toothRestorations[num] || 'crown';
-                const procInfo = RESTORATION_TYPES.find(r => r.id === assignedProc) || {
-                  label: assignedProc,
-                  color: '#00d8fe',
-                  icon: '👑'
-                };
+        <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs">
+          <div className="flex flex-col gap-2 w-full md:w-auto">
+            <span className="font-extrabold text-slate-700 dark:text-slate-300">
+              Selected Procedures Summary ({activeSelected.length} Units):
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(groupedProcedures).map(([resType, toothNums]) => {
+                const resConfig = RESTORATION_TYPES.find(r => r.id === resType);
+                const label = resConfig?.label || resType;
+                const bgColor = resConfig?.bgColor || 'bg-slate-100 dark:bg-slate-800';
+                const textColor = resConfig?.textColor || 'text-slate-800 dark:text-slate-200';
+                const borderColor = resConfig?.borderColor || 'border-slate-300 dark:border-slate-700';
 
                 return (
-                  <span
-                    key={num}
-                    style={{
-                      borderColor: procInfo.color ? `${procInfo.color}60` : undefined
-                    }}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-mono font-bold border shadow-2xs"
+                  <div
+                    key={resType}
+                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border ${borderColor} ${bgColor} ${textColor} font-bold shadow-xs`}
                   >
-                    <span>{display}</span>
-                    <span 
-                      style={{ color: procInfo.color }}
-                      className="text-[10px] font-sans font-extrabold flex items-center gap-0.5"
-                    >
-                      <span>{procInfo.icon}</span>
-                      <span>{procInfo.label}</span>
-                    </span>
-                    {!readonly && (
-                      <button
-                        type="button"
-                        onClick={(e) => handleRemoveSingleTooth(num, e)}
-                        className="hover:text-rose-500 ml-0.5 text-slate-400 transition-colors cursor-pointer"
-                        title={`Remove Tooth #${num}`}
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    )}
-                  </span>
+                    <div className="flex items-center gap-1.5">
+                      <ProcedureIcon type={resType} className="w-3.5 h-3.5" />
+                      <span className="font-extrabold text-[12px]">{label}:</span>
+                    </div>
+
+                    <div className="flex items-center gap-1 font-mono text-[11px]">
+                      {toothNums.map((num) => {
+                        const t = ODONTO_DATABASE.find(item => item.universal === num);
+                        const display = system === 'universal' ? `#${num}` : `FDI ${t?.fdi || num}`;
+                        return (
+                          <span
+                            key={num}
+                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-white/60 dark:bg-black/40 border border-current/20"
+                          >
+                            <span>{display}</span>
+                            {!readonly && (
+                              <button
+                                type="button"
+                                onClick={(e) => handleRemoveSingleTooth(num, e)}
+                                className="hover:text-rose-500 ml-0.5 p-0.5 cursor-pointer rounded text-slate-400 hover:bg-white/40 transition-colors"
+                                title={`Remove tooth ${display}`}
+                              >
+                                <X className="w-2.5 h-2.5" />
+                              </button>
+                            )}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          <div className="text-slate-500 font-medium font-mono text-xs">
+          <div className="text-slate-500 font-medium font-mono text-xs shrink-0 self-end md:self-center">
             Total Clinical Sites: <strong className="text-cyan-600 dark:text-cyan-400 font-black text-sm">{activeSelected.length}</strong>
           </div>
         </div>
