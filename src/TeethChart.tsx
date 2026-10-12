@@ -11,6 +11,7 @@ import {
   Sparkles,
   SlidersHorizontal,
   ChevronDown,
+  Grid,
   Eye,
   Crown,
   Disc,
@@ -98,6 +99,44 @@ export function ProcedureIcon({ type, className = "w-3.5 h-3.5" }: { type: Resto
   }
 }
 
+export const UPPER_ARCH_POSITIONS: Record<number, { left: number; top: number; rot: number }> = {
+  1:  { left: 45,  top: 195, rot: 16 },
+  2:  { left: 80,  top: 155, rot: 14 },
+  3:  { left: 120, top: 118, rot: 12 },
+  4:  { left: 165, top: 85,  rot: 10 },
+  5:  { left: 215, top: 58,  rot: 7 },
+  6:  { left: 270, top: 38,  rot: 5 },
+  7:  { left: 325, top: 25,  rot: 2 },
+  8:  { left: 375, top: 20,  rot: 0 },
+  9:  { left: 425, top: 20,  rot: 0 },
+  10: { left: 475, top: 25,  rot: -2 },
+  11: { left: 530, top: 38,  rot: -5 },
+  12: { left: 585, top: 58,  rot: -7 },
+  13: { left: 635, top: 85,  rot: -10 },
+  14: { left: 680, top: 118, rot: -12 },
+  15: { left: 720, top: 155, rot: -14 },
+  16: { left: 755, top: 195, rot: -16 },
+};
+
+export const LOWER_ARCH_POSITIONS: Record<number, { left: number; top: number; rot: number }> = {
+  32: { left: 45,  top: 35,  rot: -16 },
+  31: { left: 80,  top: 75,  rot: -14 },
+  30: { left: 120, top: 112, rot: -12 },
+  29: { left: 165, top: 145, rot: -10 },
+  28: { left: 215, top: 172, rot: -7 },
+  27: { left: 270, top: 192, rot: -5 },
+  26: { left: 325, top: 205, rot: -2 },
+  25: { left: 375, top: 210, rot: 0 },
+  24: { left: 425, top: 210, rot: 0 },
+  23: { left: 475, top: 205, rot: 2 },
+  22: { left: 530, top: 192, rot: 5 },
+  21: { left: 585, top: 172, rot: 7 },
+  20: { left: 635, top: 145, rot: 10 },
+  19: { left: 680, top: 112, rot: 12 },
+  18: { left: 720, top: 75,  rot: 14 },
+  17: { left: 755, top: 35,  rot: 16 },
+};
+
 export function TeethChart({
   selected,
   selectedTeeth,
@@ -114,6 +153,7 @@ export function TeethChart({
   showToolbar = true,
   className = ''
 }: TeethChartProps) {
+  const [viewLayoutMode, setViewLayoutMode] = useState<'grid' | 'anatomical'>('grid');
   // Normalize incoming service filters
   const effectiveServices = useMemo(() => {
     if (activeServices && activeServices.length > 0) {
@@ -518,24 +558,51 @@ export function TeethChart({
             )}
           </div>
 
-          {/* Arch Visibility Toggle (Image 2) */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 flex items-center gap-1">
-              <Eye className="w-3 h-3 text-slate-400" /> Arch View:
-            </span>
+          {/* Layout Mode, Arch Filters & Presets Toolbar */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* View Layout Switcher (Mode 1 vs Mode 2) */}
+            <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
+              <button
+                type="button"
+                onClick={() => setViewLayoutMode('grid')}
+                className={`flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  viewLayoutMode === 'grid'
+                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Traditional 4-Quadrant Odontogram Grid"
+              >
+                <Grid className="w-3.5 h-3.5" />
+                <span>Quadrant Grid</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewLayoutMode('anatomical')}
+                className={`flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  viewLayoutMode === 'anatomical'
+                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-xs'
+                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                }`}
+                title="Realistic Anatomical Dental Arch (Natural Mouth Curvature)"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Anatomical Arch</span>
+              </button>
+            </div>
+
+            {/* Arch Visibility Toggle */}
             <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
               <button
                 type="button"
                 onClick={() => setVisibleArch('both')}
-                className={`flex items-center gap-1 px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   visibleArch === 'both'
-                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title="Display both upper and lower arches"
               >
-                <Sparkles className="w-3 h-3" />
-                <span>Both Arches (1-32)</span>
+                Both Arches
               </button>
               <button
                 type="button"
@@ -543,11 +610,11 @@ export function TeethChart({
                 className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   visibleArch === 'upper'
                     ? 'bg-cyan-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title="Display upper maxilla row only"
               >
-                Upper (1-16)
+                Upper
               </button>
               <button
                 type="button"
@@ -555,127 +622,286 @@ export function TeethChart({
                 className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   visibleArch === 'lower'
                     ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title="Display lower mandible row only"
               >
-                Lower (17-32)
+                Lower
               </button>
             </div>
 
-            {/* Quick Batch Select Presets */}
-            <div className="hidden sm:flex items-center gap-1 ml-1">
+            {/* Quick Batch Presets */}
+            <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
               <button
                 type="button"
                 onClick={() => handleSelectBatch('smile')}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/40 transition-colors cursor-pointer"
-                title="Select Anterior Smile Zone"
+                className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg text-purple-600 dark:text-purple-400 hover:bg-white dark:hover:bg-slate-700 transition-all cursor-pointer"
+                title="Select Anterior Smile Zone (#6-11, #22-27)"
               >
-                <Smile className="w-3.5 h-3.5" /> Smile Zone
+                <Smile className="w-3.5 h-3.5" />
+                <span>Smile Zone</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSelectBatch('posteriors')}
+                className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-700 transition-all cursor-pointer"
+                title="Select Posterior Teeth"
+              >
+                <span>Posteriors</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 3. DENTAL ARCH ANATOMY GRID (EXACT 4-QUADRANT VIEW Filtered by visibleArch) */}
-      <div className="py-2 overflow-x-auto">
-        <div className="min-w-[700px] max-w-4xl mx-auto space-y-3">
-          
-          {/* Top Quadrant Header Labels */}
-          {(visibleArch === 'both' || visibleArch === 'upper') && (
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pb-1">
-              <div className="flex items-center justify-between pr-4">
-                <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] border border-cyan-500/20">
-                  UR • Maxillary Right
-                </span>
-                <span className="text-[10px] font-mono text-slate-400">#1 ➔ #8</span>
-              </div>
-              <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
-              <div className="flex items-center justify-between pl-4">
-                <span className="text-[10px] font-mono text-slate-400">#9 ➔ #16</span>
-                <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono text-[11px] border border-blue-500/20">
-                  UL • Maxillary Left
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* The 4-Quadrant Anatomical Canvas */}
-          <div className="relative border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-900/40 shadow-inner">
+      {/* MODE 1: EXACT 4-QUADRANT DENTAL ARCH GRID (Default) */}
+      {viewLayoutMode === 'grid' && (
+        <div className="py-2 overflow-x-auto">
+          <div className="min-w-[700px] max-w-4xl mx-auto space-y-3">
             
-            {/* UPPER ARCH (Maxilla) */}
+            {/* Top Quadrant Header Labels */}
             {(visibleArch === 'both' || visibleArch === 'upper') && (
-              <div className="grid grid-cols-[1fr_auto_1fr] items-end pb-2">
-                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                  {upperRight.map(renderToothCell)}
+              <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pb-1">
+                <div className="flex items-center justify-between pr-4">
+                  <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] border border-cyan-500/20">
+                    UR • Maxillary Right
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400">#1 ➔ #8</span>
                 </div>
-
-                {/* Midline Divider */}
-                <div className="w-8 h-full flex items-center justify-center">
-                  <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
-                </div>
-
-                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                  {upperLeft.map(renderToothCell)}
+                <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
+                <div className="flex items-center justify-between pl-4">
+                  <span className="text-[10px] font-mono text-slate-400">#9 ➔ #16</span>
+                  <span className="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono text-[11px] border border-blue-500/20">
+                    UL • Maxillary Left
+                  </span>
                 </div>
               </div>
             )}
 
-            {/* Occlusal Midline Cross Line */}
-            <div className="relative flex items-center justify-between my-2">
-              <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 pl-1 shrink-0 select-none">
-                Patient Right
-              </span>
-              <div className="flex-1 h-[1.5px] bg-slate-800 dark:bg-slate-200 mx-3 relative flex items-center justify-center">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 ring-4 ring-white dark:ring-slate-900" />
+            {/* The 4-Quadrant Anatomical Canvas */}
+            <div className="relative border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-900/40 shadow-inner">
+              
+              {/* UPPER ARCH (Maxilla) */}
+              {(visibleArch === 'both' || visibleArch === 'upper') && (
+                <div className="grid grid-cols-[1fr_auto_1fr] items-end pb-2">
+                  <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                    {upperRight.map(renderToothCell)}
+                  </div>
+
+                  {/* Midline Divider */}
+                  <div className="w-8 h-full flex items-center justify-center">
+                    <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
+                  </div>
+
+                  <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                    {upperLeft.map(renderToothCell)}
+                  </div>
+                </div>
+              )}
+
+              {/* Occlusal Midline Cross Line */}
+              <div className="relative flex items-center justify-between my-2">
+                <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 pl-1 shrink-0 select-none">
+                  Patient Right
+                </span>
+                <div className="flex-1 h-[1.5px] bg-slate-800 dark:bg-slate-200 mx-3 relative flex items-center justify-center">
+                  <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 ring-4 ring-white dark:ring-slate-900" />
+                </div>
+                <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 pr-1 shrink-0 select-none">
+                  Patient Left
+                </span>
               </div>
-              <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 pr-1 shrink-0 select-none">
-                Patient Left
-              </span>
+
+              {/* LOWER ARCH (Mandible) */}
+              {(visibleArch === 'both' || visibleArch === 'lower') && (
+                <div className="grid grid-cols-[1fr_auto_1fr] items-start pt-2">
+                  <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                    {lowerRight.map(renderToothCell)}
+                  </div>
+
+                  {/* Midline Divider */}
+                  <div className="w-8 h-full flex items-center justify-center">
+                    <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
+                  </div>
+
+                  <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
+                    {lowerLeft.map(renderToothCell)}
+                  </div>
+                </div>
+              )}
+
             </div>
 
-            {/* LOWER ARCH (Mandible) */}
+            {/* Bottom Quadrant Header Labels */}
             {(visibleArch === 'both' || visibleArch === 'lower') && (
-              <div className="grid grid-cols-[1fr_auto_1fr] items-start pt-2">
-                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                  {lowerRight.map(renderToothCell)}
+              <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pt-1">
+                <div className="flex items-center justify-between pr-4">
+                  <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] border border-indigo-500/20">
+                    LR • Mandibular Right
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400">#32 ➔ #25</span>
                 </div>
-
-                {/* Midline Divider */}
-                <div className="w-8 h-full flex items-center justify-center">
-                  <div className="w-[1.5px] h-full bg-slate-800 dark:bg-slate-200 rounded-full" />
-                </div>
-
-                <div className="grid grid-cols-8 gap-0.5 sm:gap-1">
-                  {lowerLeft.map(renderToothCell)}
+                <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
+                <div className="flex items-center justify-between pl-4">
+                  <span className="text-[10px] font-mono text-slate-400">#24 ➔ #17</span>
+                  <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[11px] border border-purple-500/20">
+                    LL • Mandibular Left
+                  </span>
                 </div>
               </div>
             )}
 
           </div>
-
-          {/* Bottom Quadrant Header Labels */}
-          {(visibleArch === 'both' || visibleArch === 'lower') && (
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 pt-1">
-              <div className="flex items-center justify-between pr-4">
-                <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] border border-indigo-500/20">
-                  LR • Mandibular Right
-                </span>
-                <span className="text-[10px] font-mono text-slate-400">#32 ➔ #25</span>
-              </div>
-              <div className="w-8 flex justify-center text-slate-400 font-mono text-xs">│</div>
-              <div className="flex items-center justify-between pl-4">
-                <span className="text-[10px] font-mono text-slate-400">#24 ➔ #17</span>
-                <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[11px] border border-purple-500/20">
-                  LL • Mandibular Left
-                </span>
-              </div>
-            </div>
-          )}
-
         </div>
-      </div>
+      )}
+
+      {/* MODE 2: REALISTIC ANATOMICAL DENTAL ARCH (Parabolic Mouth Curvature) */}
+      {viewLayoutMode === 'anatomical' && (
+        <div className="py-2 overflow-x-auto">
+          <div className="min-w-[820px] max-w-4xl mx-auto space-y-4">
+            
+            {/* UPPER ARCH (MAXILLA) */}
+            {(visibleArch === 'both' || visibleArch === 'upper') && (
+              <div className="border border-slate-200 dark:border-slate-800 rounded-3xl p-5 bg-slate-50/50 dark:bg-slate-900/40 shadow-inner">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300 pb-2 border-b border-slate-200/60 dark:border-slate-800/60">
+                  <span className="px-2.5 py-0.5 rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] border border-cyan-500/20">
+                    UR • Maxillary Right (#1–#8)
+                  </span>
+                  <div className="flex items-center gap-1.5 text-slate-800 dark:text-slate-100 font-black text-xs uppercase tracking-wider">
+                    <span>Upper Dental Arch (Maxilla)</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Natural Parabolic Curvature</span>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 font-mono text-[11px] border border-blue-500/20">
+                    UL • Maxillary Left (#9–#16)
+                  </span>
+                </div>
+
+                {/* Parabolic Canvas for Upper Arch */}
+                <div className="relative h-[270px] w-[810px] mx-auto select-none">
+                  {/* Subtle Parabolic Guide Curve */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40">
+                    <path
+                      d="M 65 240 Q 405 10 745 240"
+                      fill="none"
+                      stroke="#06b6d4"
+                      strokeWidth="2"
+                      strokeDasharray="6 6"
+                    />
+                    <line
+                      x1="405"
+                      y1="10"
+                      x2="405"
+                      y2="250"
+                      stroke="#06b6d4"
+                      strokeWidth="1.5"
+                      strokeDasharray="3 3"
+                    />
+                  </svg>
+
+                  {/* Upper Teeth in Natural Parabolic Arc */}
+                  {[...upperRight, ...upperLeft].map((tooth) => {
+                    const pos = UPPER_ARCH_POSITIONS[tooth.universal];
+                    if (!pos) return null;
+                    return (
+                      <div
+                        key={tooth.universal}
+                        style={{
+                          position: 'absolute',
+                          left: `${pos.left}px`,
+                          top: `${pos.top}px`,
+                          transform: `rotate(${pos.rot}deg)`,
+                          transformOrigin: 'center center'
+                        }}
+                      >
+                        {renderToothCell(tooth)}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* OCCLUSAL CONTACT MIDLINE (When both arches visible) */}
+            {visibleArch === 'both' && (
+              <div className="relative flex items-center justify-between my-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 pl-2 shrink-0 select-none">
+                  Patient Right
+                </span>
+                <div className="flex-1 h-[1.5px] bg-slate-300 dark:bg-slate-700 mx-4 relative flex items-center justify-center">
+                  <span className="px-3 py-0.5 rounded-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-[10px] font-bold text-slate-500">
+                    Occlusal Plane & Anterior Smile Zone
+                  </span>
+                </div>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 pr-2 shrink-0 select-none">
+                  Patient Left
+                </span>
+              </div>
+            )}
+
+            {/* LOWER ARCH (MANDIBLE) */}
+            {(visibleArch === 'both' || visibleArch === 'lower') && (
+              <div className="border border-slate-200 dark:border-slate-800 rounded-3xl p-5 bg-slate-50/50 dark:bg-slate-900/40 shadow-inner">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300 pb-2 border-b border-slate-200/60 dark:border-slate-800/60">
+                  <span className="px-2.5 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono text-[11px] border border-indigo-500/20">
+                    LR • Mandibular Right (#32–#25)
+                  </span>
+                  <div className="flex items-center gap-1.5 text-slate-800 dark:text-slate-100 font-black text-xs uppercase tracking-wider">
+                    <span>Lower Dental Arch (Mandible)</span>
+                    <span className="text-[10px] text-slate-400 font-normal">Natural Parabolic Curvature</span>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 font-mono text-[11px] border border-purple-500/20">
+                    LL • Mandibular Left (#24–#17)
+                  </span>
+                </div>
+
+                {/* Parabolic Canvas for Lower Arch */}
+                <div className="relative h-[270px] w-[810px] mx-auto select-none">
+                  {/* Subtle Parabolic Guide Curve */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-40">
+                    <path
+                      d="M 65 50 Q 405 270 745 50"
+                      fill="none"
+                      stroke="#6366f1"
+                      strokeWidth="2"
+                      strokeDasharray="6 6"
+                    />
+                    <line
+                      x1="405"
+                      y1="20"
+                      x2="405"
+                      y2="270"
+                      stroke="#6366f1"
+                      strokeWidth="1.5"
+                      strokeDasharray="3 3"
+                    />
+                  </svg>
+
+                  {/* Lower Teeth in Natural Parabolic Arc */}
+                  {[...lowerRight, ...lowerLeft].map((tooth) => {
+                    const pos = LOWER_ARCH_POSITIONS[tooth.universal];
+                    if (!pos) return null;
+                    return (
+                      <div
+                        key={tooth.universal}
+                        style={{
+                          position: 'absolute',
+                          left: `${pos.left}px`,
+                          top: `${pos.top}px`,
+                          transform: `rotate(${pos.rot}deg)`,
+                          transformOrigin: 'center center'
+                        }}
+                      >
+                        {renderToothCell(tooth)}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
 
       {/* 4. HOVER TOOTH INSPECTOR BAR */}
       <div className="min-h-10 py-1.5 flex flex-wrap items-center justify-between px-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 text-xs text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-800 transition-all gap-2">

@@ -45,13 +45,13 @@ export const ODONTO_DATABASE: ToothOdontoData[] = [
 ];
 
 export const RESTORATION_TYPES: RestorationMeta[] = [
-  // --- Core Restorative & Surgical ---
+  // --- Restorative: Crowns, Bridges, Inlays (Azure / Cyan Family) ---
   { 
     id: 'crown', 
     label: 'Crown', 
     labelAr: 'تاج كامل',
     icon: '👑', 
-    color: '#00d8fe', 
+    color: '#06b6d4', 
     textColor: 'text-cyan-600 dark:text-cyan-400', 
     bgColor: 'bg-cyan-50 dark:bg-cyan-950/40', 
     borderColor: 'border-cyan-500',
@@ -63,13 +63,27 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     label: 'Bridge Unit', 
     labelAr: 'جسر أسنان',
     icon: '🌉', 
-    color: '#6366f1', 
-    textColor: 'text-indigo-600 dark:text-indigo-400', 
-    bgColor: 'bg-indigo-50 dark:bg-indigo-950/40', 
-    borderColor: 'border-indigo-500',
+    color: '#0284c7', 
+    textColor: 'text-sky-600 dark:text-sky-400', 
+    bgColor: 'bg-sky-50 dark:bg-sky-950/40', 
+    borderColor: 'border-sky-500',
     description: 'Fixed partial denture retainer or pontic',
     serviceCategories: ['tp', 'restFinal']
   },
+  { 
+    id: 'inlay', 
+    label: 'Inlay / Onlay', 
+    labelAr: 'حشوة مصبوبة',
+    icon: '💎', 
+    color: '#0891b2', 
+    textColor: 'text-cyan-700 dark:text-cyan-300', 
+    bgColor: 'bg-cyan-100/50 dark:bg-cyan-900/40', 
+    borderColor: 'border-cyan-600',
+    description: 'Indirect conservative cusp/cavity restoration',
+    serviceCategories: ['restFinal']
+  },
+
+  // --- Cosmetic & Aesthetic (Purple / Lavender Family) ---
   { 
     id: 'veneer', 
     label: 'Veneer', 
@@ -83,6 +97,46 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     serviceCategories: ['tp', 'restFinal', 'vr']
   },
   { 
+    id: 'smile_design', 
+    label: 'Smile Design', 
+    labelAr: 'تصميم الابتسامة DSD',
+    icon: '🪄', 
+    color: '#c084fc', 
+    textColor: 'text-purple-700 dark:text-purple-300', 
+    bgColor: 'bg-purple-100/50 dark:bg-purple-900/40', 
+    borderColor: 'border-purple-400',
+    description: 'Digital 3D Smile Design aesthetic target tooth',
+    serviceCategories: ['vr']
+  },
+
+  // --- Provisionals (Indigo / Royal Family) ---
+  { 
+    id: 'temp_crown', 
+    label: 'Temp Crown', 
+    labelAr: 'تاج مؤقت PMMA',
+    icon: '⏳', 
+    color: '#6366f1', 
+    textColor: 'text-indigo-600 dark:text-indigo-400', 
+    bgColor: 'bg-indigo-50 dark:bg-indigo-950/40', 
+    borderColor: 'border-indigo-500',
+    description: 'Immediate load PMMA provisional crown',
+    serviceCategories: ['restTemp']
+  },
+  { 
+    id: 'temp_bridge', 
+    label: 'Temp Bridge', 
+    labelAr: 'جسر مؤقت',
+    icon: '⏱️', 
+    color: '#4f46e5', 
+    textColor: 'text-indigo-700 dark:text-indigo-300', 
+    bgColor: 'bg-indigo-100/50 dark:bg-indigo-900/40', 
+    borderColor: 'border-indigo-600',
+    description: 'Immediate load multi-unit provisional bridge',
+    serviceCategories: ['restTemp']
+  },
+
+  // --- Surgical & Guided Implantology (Gold, Amber, Orange, Coral) ---
+  { 
     id: 'implant', 
     label: 'Implant', 
     labelAr: 'زرعة تيتانيوم',
@@ -94,41 +148,15 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     description: 'Endosseous titanium fixture osteotomy site',
     serviceCategories: ['sg', 'tp', 'conv']
   },
-  { 
-    id: 'inlay', 
-    label: 'Inlay / Onlay', 
-    labelAr: 'حشوة مصبوبة',
-    icon: '💎', 
-    color: '#10b981', 
-    textColor: 'text-emerald-600 dark:text-emerald-400', 
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/40', 
-    borderColor: 'border-emerald-500',
-    description: 'Indirect conservative cusp/cavity restoration',
-    serviceCategories: ['restFinal']
-  },
-  { 
-    id: 'extraction', 
-    label: 'Missing / Pontic', 
-    labelAr: 'سن مفقود / قلع',
-    icon: '❌', 
-    color: '#f43f5e', 
-    textColor: 'text-rose-600 dark:text-rose-400', 
-    bgColor: 'bg-rose-50 dark:bg-rose-950/40', 
-    borderColor: 'border-rose-500',
-    description: 'Edentulous gap or planned extraction',
-    serviceCategories: ['sg', 'tp', 'conv', 'mod', 'rep', 'restTemp', 'restFinal', 'ortho']
-  },
-
-  // --- Surgical Guide (SG) Specific ---
   {
     id: 'sleeve',
     label: 'Guide Sleeve',
     labelAr: 'كم توجيه جراحي',
     icon: '⭕',
-    color: '#0284c7',
-    textColor: 'text-sky-600 dark:text-sky-400',
-    bgColor: 'bg-sky-50 dark:bg-sky-950/40',
-    borderColor: 'border-sky-500',
+    color: '#ea580c',
+    textColor: 'text-orange-600 dark:text-orange-400',
+    bgColor: 'bg-orange-50 dark:bg-orange-950/40',
+    borderColor: 'border-orange-500',
     description: 'Cylindrical titanium/stepped guide sleeve position',
     serviceCategories: ['sg']
   },
@@ -137,10 +165,10 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     label: 'Anchor Pin',
     labelAr: 'مسمار تثبيت الدليل',
     icon: '📌',
-    color: '#d97706',
-    textColor: 'text-amber-700 dark:text-amber-400',
-    bgColor: 'bg-amber-50 dark:bg-amber-950/40',
-    borderColor: 'border-amber-600',
+    color: '#c2410c',
+    textColor: 'text-orange-800 dark:text-orange-300',
+    bgColor: 'bg-orange-100/50 dark:bg-orange-900/40',
+    borderColor: 'border-orange-700',
     description: 'Fixation pin site for bone-supported/mucosa surgical guides',
     serviceCategories: ['sg']
   },
@@ -150,23 +178,21 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     labelAr: 'تخفيض عظمي',
     icon: '📐',
     color: '#e11d48',
-    textColor: 'text-rose-700 dark:text-rose-400',
+    textColor: 'text-rose-600 dark:text-rose-400',
     bgColor: 'bg-rose-50 dark:bg-rose-950/40',
-    borderColor: 'border-rose-600',
+    borderColor: 'border-rose-500',
     description: 'Planned alveolectomy / bone reduction plateau',
     serviceCategories: ['sg']
   },
-
-  // --- Treatment Plan (TP) Specific ---
   {
     id: 'sinus_lift',
     label: 'Sinus Lift',
     labelAr: 'رفع الجيب الفكي',
     icon: '🌊',
-    color: '#06b6d4',
-    textColor: 'text-cyan-700 dark:text-cyan-400',
-    bgColor: 'bg-cyan-50 dark:bg-cyan-950/40',
-    borderColor: 'border-cyan-600',
+    color: '#14b8a6',
+    textColor: 'text-teal-600 dark:text-teal-400',
+    bgColor: 'bg-teal-50 dark:bg-teal-950/40',
+    borderColor: 'border-teal-500',
     description: 'Maxillary sinus floor elevation region',
     serviceCategories: ['tp', 'rep']
   },
@@ -175,64 +201,26 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     label: 'IAN Safety Zone',
     labelAr: 'مسار العصب الفكي',
     icon: '⚡',
-    color: '#f97316',
-    textColor: 'text-orange-600 dark:text-orange-400',
-    bgColor: 'bg-orange-50 dark:bg-orange-950/40',
-    borderColor: 'border-orange-500',
+    color: '#fb923c',
+    textColor: 'text-orange-500 dark:text-orange-300',
+    bgColor: 'bg-orange-50/80 dark:bg-orange-950/30',
+    borderColor: 'border-orange-400',
     description: 'Mandibular canal / IAN safe clearance landmark',
     serviceCategories: ['tp', 'conv']
   },
 
-  // --- Conversion & Model Work ---
-  {
-    id: 'segmentation',
-    label: 'Segmentation ROI',
-    labelAr: 'منطقة استخلاص 3D',
-    icon: '🧩',
-    color: '#8b5cf6',
-    textColor: 'text-violet-600 dark:text-violet-400',
-    bgColor: 'bg-violet-50 dark:bg-violet-950/40',
-    borderColor: 'border-violet-500',
-    description: 'DICOM CBCT bone/tooth segmentation target',
-    serviceCategories: ['conv']
-  },
-  {
-    id: 'die_prep',
-    label: 'Removable Die',
-    labelAr: 'سن مجهز متحرك',
-    icon: '🏷️',
-    color: '#14b8a6',
-    textColor: 'text-teal-600 dark:text-teal-400',
-    bgColor: 'bg-teal-50 dark:bg-teal-950/40',
-    borderColor: 'border-teal-500',
-    description: '3D printed model removable die prep',
-    serviceCategories: ['mod']
-  },
-  {
-    id: 'analog',
-    label: 'Implant Analog',
-    labelAr: 'أنالوج في النموذج',
-    icon: '📍',
-    color: '#f59e0b',
-    textColor: 'text-amber-600 dark:text-amber-400',
-    bgColor: 'bg-amber-50 dark:bg-amber-950/40',
-    borderColor: 'border-amber-500',
-    description: 'Printed model laboratory analog receptor',
-    serviceCategories: ['mod']
-  },
-
-  // --- Radiology Specific ---
-  {
-    id: 'impacted',
-    label: 'Impacted Tooth',
-    labelAr: 'سن مطمور',
-    icon: '🔍',
-    color: '#ec4899',
-    textColor: 'text-pink-600 dark:text-pink-400',
-    bgColor: 'bg-pink-50 dark:bg-pink-950/40',
-    borderColor: 'border-pink-500',
-    description: 'Impacted / unerupted 3rd molar or canine evaluation',
-    serviceCategories: ['rep']
+  // --- Pathology, Missing & Diagnostic (Ruby, Red, Pink) ---
+  { 
+    id: 'extraction', 
+    label: 'Missing / Pontic', 
+    labelAr: 'سن مفقود / قلع',
+    icon: '❌', 
+    color: '#be123c', 
+    textColor: 'text-rose-700 dark:text-rose-300', 
+    bgColor: 'bg-rose-100/60 dark:bg-rose-950/50', 
+    borderColor: 'border-rose-600',
+    description: 'Edentulous gap or planned extraction',
+    serviceCategories: ['sg', 'tp', 'conv', 'mod', 'rep', 'restTemp', 'restFinal', 'ortho']
   },
   {
     id: 'pathology',
@@ -246,41 +234,67 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     description: 'Periapical lesion or bone resorption focus',
     serviceCategories: ['rep']
   },
+  {
+    id: 'impacted',
+    label: 'Impacted Tooth',
+    labelAr: 'سن مطمور',
+    icon: '🔍',
+    color: '#db2777',
+    textColor: 'text-pink-600 dark:text-pink-400',
+    bgColor: 'bg-pink-50 dark:bg-pink-950/40',
+    borderColor: 'border-pink-500',
+    description: 'Impacted / unerupted 3rd molar or canine evaluation',
+    serviceCategories: ['rep']
+  },
 
-  // --- Provisional & Orthodontics ---
+  // --- Model Work & CAD 3D (Emerald, Lime, Violet) ---
   {
-    id: 'temp_crown',
-    label: 'Temp Crown',
-    labelAr: 'تاج مؤقت PMMA',
-    icon: '⏳',
-    color: '#3b82f6',
-    textColor: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-950/40',
-    borderColor: 'border-blue-500',
-    description: 'Immediate load PMMA provisional crown',
-    serviceCategories: ['restTemp']
+    id: 'die_prep',
+    label: 'Removable Die',
+    labelAr: 'سن مجهز متحرك',
+    icon: '🏷️',
+    color: '#10b981',
+    textColor: 'text-emerald-600 dark:text-emerald-400',
+    bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
+    borderColor: 'border-emerald-500',
+    description: '3D printed model removable die prep',
+    serviceCategories: ['mod']
   },
   {
-    id: 'temp_bridge',
-    label: 'Temp Bridge',
-    labelAr: 'جسر مؤقت',
-    icon: '⏱️',
-    color: '#6366f1',
-    textColor: 'text-indigo-600 dark:text-indigo-400',
-    bgColor: 'bg-indigo-50 dark:bg-indigo-950/40',
-    borderColor: 'border-indigo-500',
-    description: 'Immediate load multi-unit provisional bridge',
-    serviceCategories: ['restTemp']
+    id: 'analog',
+    label: 'Implant Analog',
+    labelAr: 'أنالوج في النموذج',
+    icon: '📍',
+    color: '#84cc16',
+    textColor: 'text-lime-600 dark:text-lime-400',
+    bgColor: 'bg-lime-50 dark:bg-lime-950/40',
+    borderColor: 'border-lime-500',
+    description: 'Printed model laboratory analog receptor',
+    serviceCategories: ['mod']
   },
+  {
+    id: 'segmentation',
+    label: 'Segmentation ROI',
+    labelAr: 'منطقة استخلاص 3D',
+    icon: '🧩',
+    color: '#7c3aed',
+    textColor: 'text-violet-600 dark:text-violet-400',
+    bgColor: 'bg-violet-50 dark:bg-violet-950/40',
+    borderColor: 'border-violet-500',
+    description: 'DICOM CBCT bone/tooth segmentation target',
+    serviceCategories: ['conv']
+  },
+
+  // --- Orthodontics & Clear Aligners (Jade Mint, Fuchsia) ---
   {
     id: 'attachment',
     label: 'Aligner Attachment',
     labelAr: 'أتاشمنت تقويم',
     icon: '🔘',
-    color: '#10b981',
-    textColor: 'text-emerald-600 dark:text-emerald-400',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
-    borderColor: 'border-emerald-500',
+    color: '#059669',
+    textColor: 'text-emerald-700 dark:text-emerald-300',
+    bgColor: 'bg-emerald-100/50 dark:bg-emerald-900/40',
+    borderColor: 'border-emerald-600',
     description: 'Composite resin engagement bump for clear aligners',
     serviceCategories: ['ortho']
   },
@@ -289,25 +303,13 @@ export const RESTORATION_TYPES: RestorationMeta[] = [
     label: 'IPR Contact',
     labelAr: 'برد مابين الأسنان',
     icon: '↔️',
-    color: '#8b5cf6',
-    textColor: 'text-purple-600 dark:text-purple-400',
-    bgColor: 'bg-purple-50 dark:bg-purple-950/40',
-    borderColor: 'border-purple-500',
+    color: '#d946ef',
+    textColor: 'text-fuchsia-600 dark:text-fuchsia-400',
+    bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-950/40',
+    borderColor: 'border-fuchsia-500',
     description: 'Interproximal enamel reduction site',
     serviceCategories: ['ortho']
   },
-  {
-    id: 'smile_design',
-    label: 'Smile Design',
-    labelAr: 'تصميم الابتسامة DSD',
-    icon: '🪄',
-    color: '#ec4899',
-    textColor: 'text-pink-600 dark:text-pink-400',
-    bgColor: 'bg-pink-50 dark:bg-pink-950/40',
-    borderColor: 'border-pink-500',
-    description: 'Digital 3D Smile Design aesthetic target tooth',
-    serviceCategories: ['vr']
-  }
 ];
 
 export const SERVICE_PROCEDURES_MAP: Record<string, RestorationType[]> = {
