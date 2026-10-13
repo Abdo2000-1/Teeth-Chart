@@ -22,7 +22,7 @@
 
 | Role | Name | Title & Responsibility | Contact / Profile |
 | :--- | :--- | :--- | :--- |
-| **Lead Software Engineer** | **Abdo Al Adawy** | Medical CAD Engine Architecture, Anatomical Vectorization & Standalone Component Author | [@Abdo2000-1](https://github.com/Abdo2000-1) |
+| **Front end Engineer** | **Abdo Al Adawy** | Medical CAD Engine Architecture, Anatomical Vectorization & Standalone Component Author | [@Abdo2000-1](https://github.com/Abdo2000-1) |
 | **Technical Supervisor** | **Eng. Aya Adel** | Project Supervision, Clinical Evaluation & Engineering Specification Review | Clinical Systems Supervisor |
 
 ---
@@ -201,8 +201,9 @@ Teeth-Chart/
 
 ## 👥 Credits & Authorship
 
-* **Lead Software Engineer**: **Abdo Al Adawy** — [GitHub Profile](https://github.com/Abdo2000-1)
+
 * **Technical Supervisor**: **Eng. Aya Adel** — Clinical Verification & Project Supervision
+* **Responsible Developer**: **Abdo Al Adawy** — [GitHub Profile](https://github.com/Abdo2000-1)
 * **Project**: **3DDX Teeth Chart** (Reusable Clinical Odontogram Suite)
 * **Repository**: [https://github.com/Abdo2000-1/Teeth-Chart](https://github.com/Abdo2000-1/Teeth-Chart)
 * **License**: MIT License — Open for Clinical & Enterprise Integration.
