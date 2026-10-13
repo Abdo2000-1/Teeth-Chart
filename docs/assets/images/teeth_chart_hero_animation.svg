@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="50%" stop-color="#081026" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+
+    <!-- Vibrant Accents -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="50%" stop-color="#4facfe" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="implantGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <linearGradient id="enamelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="70%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="glowGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Grid Matrix -->
+    <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(56, 189, 248, 0.05)" stroke-width="1" />
+      <circle cx="40" cy="40" r="1" fill="rgba(56, 189, 248, 0.2)" />
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes sweepRadar {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulseBeam {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.85; }
+    }
+    @keyframes floatToothArch {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-10px) scale(1.01); }
+    }
+    @keyframes laserScan {
+      0% { transform: translateY(0); opacity: 0.1; }
+      50% { opacity: 0.9; }
+      100% { transform: translateY(520px); opacity: 0.1; }
+    }
+    @keyframes orbitNode {
+      0% { transform: rotate(0deg) translateX(110px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(110px) rotate(-360deg); }
+    }
+    .sweep-radar { transform-origin: 200px 250px; animation: sweepRadar 14s linear infinite; }
+    .pulse-beam { animation: pulseBeam 3.5s ease-in-out infinite; }
+    .float-arch { animation: floatToothArch 4.5s ease-in-out infinite; transform-origin: center; }
+    .laser-scan { animation: laserScan 7s linear infinite; }
+    .orbit-1 { transform-origin: 200px 250px; animation: orbitNode 10s linear infinite; }
+    .tech-font { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "JetBrains Mono", monospace; }
+  </style>
+
+  <!-- Deep Canvas Background -->
+  <rect width="1200" height="520" fill="url(#bgDark)" />
+  <rect width="1200" height="520" fill="url(#cadGrid)" />
+
+  <!-- Animated Laser Scan Line -->
+  <line x1="0" y1="0" x2="1200" y2="0" stroke="#00f2fe" stroke-width="2.5" opacity="0.5" class="laser-scan" filter="url(#glowGlow)" />
+
+  <!-- Ambient Light Halos -->
+  <circle cx="200" cy="250" r="180" fill="#00f2fe" opacity="0.08" filter="url(#glowGlow)" />
+  <circle cx="950" cy="260" r="220" fill="#6366f1" opacity="0.07" filter="url(#glowGlow)" />
+
+  <!-- LEFT HERO: ANIMATED DENTAL RADAR & ARCH ANATOMY (200, 250) -->
+  <g class="float-arch">
+    <!-- Orbital Coordinate Rings -->
+    <circle cx="200" cy="250" r="160" fill="none" stroke="rgba(56, 189, 248, 0.15)" stroke-width="1.5" stroke-dasharray="6 8" />
+    <circle cx="200" cy="250" r="125" fill="none" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1.5" />
+    <ellipse cx="200" cy="250" rx="145" ry="60" fill="none" stroke="url(#cyanGrad)" stroke-width="2" opacity="0.6" transform="rotate(-20 200 250)" />
+    
+    <!-- Radar Sweep Line -->
+    <g class="sweep-radar">
+      <line x1="200" y1="250" x2="350" y2="250" stroke="url(#cyanGrad)" stroke-width="2" opacity="0.75" />
+      <polygon points="200,250 350,225 350,250" fill="rgba(0, 242, 254, 0.08)" />
+    </g>
+
+    <!-- Parabolic Arch Curve Schematic -->
+    <path d="M 90 280 Q 200 130 310 280" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 4" opacity="0.8" />
+    
+    <!-- Interactive Tooth Nodes Along The Curve -->
+    <!-- Molars Right (1) -->
+    <g transform="translate(100, 270)">
+      <path d="M -14 0 C -16 -12 -12 -20 -6 -20 C 0 -20 2 -16 6 -16 C 10 -16 12 -20 18 -20 C 24 -20 28 -12 26 0 Z" fill="url(#enamelGrad)" stroke="#38bdf8" stroke-width="1.5" />
+      <path d="M -10 0 C -12 12 -16 22 -10 32 M 10 0 C 12 12 16 22 10 32" stroke="#d97706" stroke-width="2" fill="none" />
+      <circle cx="6" cy="-8" r="8" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
+      <text x="6" y="-5" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900" class="tech-font">1</text>
+    </g>
+
+    <!-- Premolar (4) -->
+    <g transform="translate(145, 205)">
+      <path d="M -9 0 C -11 -9 -8 -15 -4 -15 C 0 -15 2 -12 5 -12 C 8 -12 9 -15 13 -15 C 17 -15 20 -9 18 0 Z" fill="url(#enamelGrad)" stroke="#a855f7" stroke-width="2" filter="url(#softGlow)" />
+      <circle cx="5" cy="-6" r="7" fill="#8b5cf6" stroke="#ffffff" stroke-width="1.5" />
+      <text x="5" y="-3" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" class="tech-font">4</text>
+    </g>
+
+    <!-- Central Incisor (8) -->
+    <g transform="translate(185, 160)">
+      <path d="M -7 0 C -8 -10 -5 -16 0 -16 C 5 -16 8 -10 7 0 Z" fill="url(#enamelGrad)" stroke="#06b6d4" stroke-width="1.5" />
+      <circle cx="0" cy="-6" r="7" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" />
+      <text x="0" y="-3" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" class="tech-font">8</text>
+    </g>
+
+    <!-- Titanium Implant Tooth (9) with glowing fixture -->
+    <g transform="translate(215, 160)">
+      <path d="M -7 0 C -8 -10 -5 -16 0 -16 C 5 -16 8 -10 7 0 Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" filter="url(#softGlow)" />
+      <!-- Titanium screw threads -->
+      <line x1="0" y1="0" x2="0" y2="28" stroke="#f59e0b" stroke-width="3.5" />
+      <line x1="-5" y1="6" x2="5" y2="6" stroke="#fbbf24" stroke-width="1.5" />
+      <line x1="-5" y1="12" x2="5" y2="12" stroke="#fbbf24" stroke-width="1.5" />
+      <line x1="-5" y1="18" x2="5" y2="18" stroke="#fbbf24" stroke-width="1.5" />
+      <line x1="-4" y1="24" x2="4" y2="24" stroke="#fbbf24" stroke-width="1.5" />
+      <circle cx="0" cy="-6" r="7" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+      <text x="0" y="-3" text-anchor="middle" fill="#ffffff" font-size="7" font-weight="900" class="tech-font">9</text>
+    </g>
+
+    <!-- Molar Left (16) -->
+    <g transform="translate(300, 270)">
+      <path d="M -14 0 C -16 -12 -12 -20 -6 -20 C 0 -20 2 -16 6 -16 C 10 -16 12 -20 18 -20 C 24 -20 28 -12 26 0 Z" fill="url(#enamelGrad)" stroke="#38bdf8" stroke-width="1.5" />
+      <path d="M -10 0 C -12 12 -16 22 -10 32 M 10 0 C 12 12 16 22 10 32" stroke="#d97706" stroke-width="2" fill="none" />
+      <circle cx="6" cy="-8" r="8" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
+      <text x="6" y="-5" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="900" class="tech-font">16</text>
+    </g>
+
+    <!-- Cross Hair Center -->
+    <line x1="200" y1="235" x2="200" y2="265" stroke="#00f2fe" stroke-width="2" />
+    <line x1="185" y1="250" x2="215" y2="250" stroke="#00f2fe" stroke-width="2" />
+    <circle cx="200" cy="250" r="5" fill="#00f2fe" filter="url(#glowGlow)" />
+  </g>
+
+  <!-- CENTER-RIGHT: TITLE, METADATA & LEADERSHIP -->
+  <g transform="translate(420, 80)">
+    <!-- Top Clinical Engine Badge -->
+    <rect x="0" y="0" width="410" height="32" rx="16" fill="rgba(0, 242, 254, 0.1)" stroke="rgba(0, 242, 254, 0.4)" stroke-width="1.5" />
+    <circle cx="16" cy="16" r="6" fill="#00f2fe" filter="url(#glowGlow)" class="pulse-beam" />
+    <text x="32" y="21" fill="#38bdf8" font-size="12" font-weight="800" letter-spacing="1.5" class="tech-font">
+      CLINICAL TEETH CHART ENGINE • STANDALONE SUITE v4.2
+    </text>
+
+    <!-- Master Header -->
+    <text x="0" y="80" fill="#ffffff" font-size="44" font-weight="900" letter-spacing="-0.5" class="tech-font">
+      3DDX Teeth Chart
+    </text>
+    <text x="0" y="122" fill="url(#cyanGrad)" font-size="28" font-weight="800" letter-spacing="0.2" class="tech-font">
+      2D Clinical Odontogram &amp; Parabolic Arch Engine
+    </text>
+
+    <!-- Scientific Subtitle -->
+    <text x="0" y="160" fill="#94a3b8" font-size="15" font-weight="500" class="tech-font">
+      Production Reusable Medical Component • ISO 3950 &amp; Universal ADA • Surgical Titanium Screws
+    </text>
+
+    <!-- Engineering Credits Box -->
+    <g transform="translate(0, 195)">
+      <rect x="0" y="0" width="740" height="58" rx="14" fill="rgba(15, 23, 42, 0.85)" stroke="rgba(148, 163, 184, 0.25)" stroke-width="1.5" />
+      
+      <!-- Lead Engineer -->
+      <g transform="translate(24, 16)">
+        <circle cx="12" cy="12" r="10" fill="#0284c7" filter="url(#softGlow)" />
+        <text x="32" y="17" fill="#f8fafc" font-size="14.5" font-weight="800" class="tech-font">
+          Lead Engineer: <tspan fill="#38bdf8">Abdo Al Adawy</tspan>
+        </text>
+        <text x="32" y="32" fill="#64748b" font-size="11" font-weight="600" class="tech-font">Full-Stack Architecture &amp; CAD Integration</text>
+      </g>
+
+      <!-- Divider -->
+      <line x1="380" y1="10" x2="380" y2="48" stroke="rgba(148, 163, 184, 0.3)" stroke-width="1.5" />
+
+      <!-- Technical Supervisor -->
+      <g transform="translate(405, 16)">
+        <circle cx="12" cy="12" r="10" fill="#9333ea" filter="url(#softGlow)" />
+        <text x="32" y="17" fill="#f8fafc" font-size="14.5" font-weight="800" class="tech-font">
+          Technical Supervisor: <tspan fill="#c084fc">Eng. Aya Adel</tspan>
+        </text>
+        <text x="32" y="32" fill="#64748b" font-size="11" font-weight="600" class="tech-font">Project Oversight &amp; Clinical Verification</text>
+      </g>
+    </g>
+
+    <!-- Interactive Live Badges Bar -->
+    <g transform="translate(0, 275)">
+      <!-- Badge 1: 32 Anatomical Teeth -->
+      <rect x="0" y="0" width="170" height="42" rx="10" fill="rgba(56, 189, 248, 0.08)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1" />
+      <text x="16" y="26" fill="#38bdf8" font-size="12.5" font-weight="800" class="tech-font">✓ 32 Realistic Teeth</text>
+
+      <!-- Badge 2: Parabolic Arch -->
+      <rect x="185" y="0" width="175" height="42" rx="10" fill="rgba(16, 185, 129, 0.08)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1" />
+      <text x="201" y="26" fill="#10b981" font-size="12.5" font-weight="800" class="tech-font">✓ Parabolic Arch View</text>
+
+      <!-- Badge 3: Titanium Implants -->
+      <rect x="375" y="0" width="180" height="42" rx="10" fill="rgba(245, 158, 11, 0.08)" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1" />
+      <text x="391" y="26" fill="#f59e0b" font-size="12.5" font-weight="800" class="tech-font">✓ Titanium Implants</text>
+
+      <!-- Badge 4: Reusable Component -->
+      <rect x="570" y="0" width="170" height="42" rx="10" fill="rgba(168, 85, 247, 0.08)" stroke="rgba(168, 85, 247, 0.3)" stroke-width="1" />
+      <text x="586" y="26" fill="#c084fc" font-size="12.5" font-weight="800" class="tech-font">✓ Standalone NPM Lib</text>
+    </g>
+
+    <!-- System Spec Metrics Strip -->
+    <g transform="translate(0, 335)">
+      <rect x="0" y="0" width="740" height="60" rx="12" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+      
+      <text x="30" y="26" fill="#64748b" font-size="11" font-weight="700" class="tech-font">RENDER TIME</text>
+      <text x="30" y="47" fill="#38bdf8" font-size="16" font-weight="900" class="tech-font">&lt; 16 ms (60 FPS)</text>
+
+      <text x="220" y="26" fill="#64748b" font-size="11" font-weight="700" class="tech-font">CLINICAL PROCEDURES</text>
+      <text x="220" y="47" fill="#10b981" font-size="16" font-weight="900" class="tech-font">11 Active Modes</text>
+
+      <text x="430" y="26" fill="#64748b" font-size="11" font-weight="700" class="tech-font">BUNDLE SIZE</text>
+      <text x="430" y="47" fill="#f59e0b" font-size="16" font-weight="900" class="tech-font">51.6 kB Zero-Dep</text>
+
+      <text x="600" y="26" fill="#64748b" font-size="11" font-weight="700" class="tech-font">COMPLIANCE</text>
+      <text x="600" y="47" fill="#a855f7" font-size="16" font-weight="900" class="tech-font">IEEE 830 / 1016</text>
+    </g>
+  </g>
+
+  <!-- Bottom Glowing Edge -->
+  <rect x="0" y="512" width="1200" height="8" fill="url(#cyanGrad)" />
+</svg>
